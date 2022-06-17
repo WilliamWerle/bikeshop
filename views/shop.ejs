@@ -23,7 +23,7 @@
                 <nav class=" header col-12 navbar navbar-light bg-dark">
                         <a class="navbar" href="/">
                         <img src="/images/bike-logo.svg" width="50" height="50" class="logo" alt="">
-                        The Bike Shop Experience
+                        The F1 Bike Shop Experience
                         </a>
                 </nav>
   
@@ -41,6 +41,9 @@
             <h1>Basket</h1>
 
             <div class="row">
+                <% if (dataCardBike.length == 0) { %>
+                    <p style="color: red">No article in the basket</p>
+                <% } else { %>
                 <table class="table">
                     <thead>
                       <tr>
@@ -55,12 +58,13 @@
                     </thead>
                     <tbody>
                         <% 
-
+                        
+                        
                         var totalCmd = 0;
                         for(var i=0;i<dataCardBike.length;i++){
                         %>
                             <tr class="basket-item">
-                                <th scope="row"><%=i%></th>
+                                <th scope="row"><%=i+1 %></th>
                                 <td><img src=<%= dataCardBike[i].url %> class="basket-img"></td>
                                 <td>
                                     <%= dataCardBike[i].name %>
@@ -69,12 +73,12 @@
                                     <form action="/update-shop" method="POST">
                                         <input type="hidden" name="position" value="<%=i%>">
                                         <input type="text" name="quantity" value="<%= dataCardBike[i].quantity%>">
-                                        <button type="submit" class="btn btn-outline-info btn-sm" name="button"><i class="fas fa-sync-alt"></i></button>
+                                        <button type="submit" class="btn btn-outline-info btn-sm" name="button"><img src="/images/refresh.png" height="20" width="20"> </button>
                                     </form>
                                 </td>
                                 <td><%= dataCardBike[i].price %>€</td>
                                 <td><%= dataCardBike[i].price * dataCardBike[i].quantity %>€</td>
-                                <td><a href="/delete-shop?position=<%=i%>"><button class="btn btn-outline-info btn-sm" name="button"><i class="far fa-trash-alt"></i></button></a></td>
+                                <td><a href="/delete-shop?position=<%=i%>"><button class="btn btn-outline-info btn-sm" name="button"><img src="/images/bin.png" height="20" width="20"></i></button></a></td>
                             </tr>
                         <%
                             totalCmd += dataCardBike[i].price * dataCardBike[i].quantity;
@@ -94,11 +98,14 @@
                       </tr>
                     </tbody>
                 </table>
+            <% } %>
             </div>
             <div class="row">
                 <div class="col-12 text-right">
-                    <button class="btn btn-outline-info btn-sm btn-checkout" name="button-checkout">Checkout</button>
-                </div>
+                    <form action="/create-checkout-session" method="POST">
+                    <button type="submit" class="btn btn-outline-info btn-sm btn-checkout" name="button-checkout">Checkout</button>
+                </form>
+                    </div>
             </div>
                 
         </div>
